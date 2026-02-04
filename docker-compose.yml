@@ -1,0 +1,10 @@
+services:
+  sara-sap:
+    container_name: sara-sap
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3017:3017"
+    tty: true

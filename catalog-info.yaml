@@ -11,3 +11,5 @@ spec:
   owner: group:default/eq-robot-developer
   system: system:default/flotilla
   lifecycle: experimental
+  dependsOn:
+    - component:sara
