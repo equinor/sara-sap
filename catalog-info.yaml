@@ -1,0 +1,21 @@
+# See the Varia documentation for help on filling out this file:
+# https://varia.equinor.com/docs/default/system/varia/users/
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "sara-sap"
+  # Description example (uncomment to use).  This will show up several places and should be short.
+  #
+  # description: A few words describing this Component.
+  annotations:
+    github.com/project-slug: "equinor/sara-sap"
+    # Links example (uncomment to use).  These will show up on the Component's entity page.
+    #
+    # links:
+    #   - url: 'https://backstage.io/'
+    #     title: 'Official Backstage documentation'
+spec:
+  type: service
+  owner: "group:default/eq-robot-developer"
+  lifecycle: experimental
