@@ -19,3 +19,5 @@ spec:
   type: service
   owner: "group:default/eq-robot-developer"
   lifecycle: experimental
+  dependsOn:
+    - component:sara
