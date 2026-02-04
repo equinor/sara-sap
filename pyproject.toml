@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=64.0", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sara-sap"
+authors = [{ name = "Equinor ASA", email = "fg_robots_dev@equinor.com" }]
+description = "Component to be used by SARA and SARA-Timeseries for communicating with SAP"
+readme = "README.md"
+requires-python = ">=3.13"
+license = { file = "LICENSE" }
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "fastapi-azure-auth",
+    "fastapi>=0.121.0",
+    "loguru",
+    "msal",
+    "pydantic_settings",
+    "pydantic",
+    "requests",
+    "starlette>=0.49.1",
+    "uvicorn",
+    "python-multipart",
+    "dependency-injector",
+]
+dynamic = ["version"]
+
+[project.scripts]
+sara-sap-start = "sara_sap.script:start"
+
+[project.urls]
+repository = "https://github.com/equinor/sara-sap.git"
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "isort",
+    "mypy",
+    "pip-tools",
+    "pytest-mock",
+    "pytest-xdist",
+    "pytest",
+]
+
+[tool.setuptools_scm]
+# This section is empty but required for dynamic versioning.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+log_cli = true
+filterwarnings = """
+    ignore::Warning
+"""
+
+[tool.mypy]
+no_strict_optional = true
+no_site_packages = true
+ignore_missing_imports = true
+exclude = ["build"]
+files = ["src", "tests"]
+disallow_untyped_defs = true
+
+[tool.isort]
+include_trailing_comma = true
+line_length = 88
+multi_line_output = 3
+use_parentheses = true
+
+[tool.black]
+line_length = 88
