@@ -1,13 +1,16 @@
 from http import HTTPStatus
 from typing import List, Union
 
-from fastapi import FastAPI, APIRouter, Security
+from fastapi import APIRouter, FastAPI, Security
 from pydantic import AnyHttpUrl
 from starlette.middleware.cors import CORSMiddleware
 
-from authentication import Authenticator
-from maintenance_api.maintenance_plan import MaintenancePlanController
-from settings import settings
+from sara_sap.authentication import Authenticator
+from sara_sap.maintenance_api.maintenance_plan.controller import (
+    MaintenancePlanController,
+)
+from sara_sap.maintenance_api.models import MaintenancePlan
+from sara_sap.settings import settings
 
 
 class API:
@@ -62,7 +65,7 @@ class API:
             responses={
                 HTTPStatus.OK.value: {
                     "description": "Successfully retrieved maintenance plan",
-                    "model": "",
+                    "model": MaintenancePlan,
                 },
                 HTTPStatus.BAD_REQUEST.value: {
                     "description": "Bad request",

@@ -1,4 +1,4 @@
-from typing import Union, Callable, Any, Coroutine, Type
+from typing import Any, Callable, Coroutine, Type, Union
 
 from fastapi import Depends
 from fastapi.security.base import SecurityBase
@@ -6,6 +6,7 @@ from fastapi_azure_auth import SingleTenantAzureAuthorizationCodeBearer
 from fastapi_azure_auth.exceptions import InvalidAuthHttp
 from fastapi_azure_auth.user import User
 from loguru import logger
+from msal import ConfidentialClientApplication
 from pydantic import BaseModel
 
 from sara_sap.settings import settings
@@ -39,6 +40,22 @@ async def validate_has_role(user: User = Depends(azure_scheme)) -> None:
         raise InvalidAuthHttp(
             "Current user does not possess the required role for this endpoint"
         )
+
+
+def get_on_behalf_of_token_for_maintenance_api(access_token: str) -> str:
+    client: ConfidentialClientApplication = ConfidentialClientApplication(
+        client_id=settings.AZURE_CLIENT_ID,
+        client_credential=settings.AZURE_CLIENT_SECRET,
+        authority=f"https://login.microsoftonline.com/{settings.AZURE_TENANT_ID}",
+    )
+    result: dict = client.acquire_token_on_behalf_of(
+        user_assertion=access_token,
+        scopes=[f"{settings.MAINTENANCE_API_CLIENT_ID}/MaintenanceAPIQA"],
+    )
+
+    if "access_token" not in result:
+        raise RuntimeError("Failed to acquire token on behalf of user")
+    return result["access_token"]
 
 
 class Authenticator:
