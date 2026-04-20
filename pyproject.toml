@@ -7,7 +7,7 @@ name = "sara-sap"
 authors = [{ name = "Equinor ASA", email = "fg_robots_dev@equinor.com" }]
 description = "Component to be used by SARA and SARA-Timeseries for communicating with SAP"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 license = { file = "LICENSE" }
 classifiers = [
     "Intended Audience :: Developers",
@@ -15,7 +15,6 @@ classifiers = [
     "License :: OSI Approved :: MIT",
     "Natural Language :: English",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: Physics",
