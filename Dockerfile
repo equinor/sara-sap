@@ -1,23 +1,22 @@
 FROM python:3.14-slim AS build
 
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 WORKDIR /app
 
-RUN python -m venv /app/venv
-ENV PATH="/app/venv/bin:$PATH"
+RUN apt-get update && apt-get install -y --no-install-recommends git build-essential gcc \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y --no-install-recommends git
-RUN apt-get install -y --no-install-recommends build-essential gcc
-
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
 
 COPY . .
-RUN --mount=source=.git,target=.git,type=bind pip install .
+RUN --mount=source=.git,target=.git,type=bind uv sync --frozen --no-editable --no-dev
 
 FROM python:3.14-slim
 WORKDIR /app
-COPY --from=build /app/venv /app/venv
-ENV PATH="/app/venv/bin:$PATH"
+COPY --from=build /app/.venv /app/.venv
+ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE 3017
 
